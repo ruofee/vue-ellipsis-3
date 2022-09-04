@@ -1,6 +1,6 @@
 {
   "name": "vue-ellipsis-3",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,6 +16,10 @@
     }
   },
   "typings": "types/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "vue": "^3.2.37"
   },
