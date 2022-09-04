@@ -1,6 +1,5 @@
 {
   "name": "vue-ellipsis-3",
-  "private": true,
   "version": "0.0.1",
   "type": "module",
   "scripts": {
