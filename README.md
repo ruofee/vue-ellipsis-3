@@ -4,6 +4,10 @@
 
 若是你使用 vue 2.x 版本，请移步 [vue-ellipsis-component](https://github.com/ruofee/vue-ellipsis-component)
 
+## Demo
+
+![demo.gif](./images/demo.gif)
+
 ## 安装
 
 推荐使用 npm 或是 yarn 进行组件安装：
