@@ -9,7 +9,7 @@ declare const VueEllipsis3: DefineComponent<
     maxHeight: number | string;
     ellipsis: boolean;
     ellipsisNode: string;
-    endExcludes: Array<string>;
+    endExcludes: Array<string | RegExp>;
     useInnerHtml: boolean;
     reflowOnResize: boolean;
     onReflow: (ellipsis: boolean, text: string) => void;

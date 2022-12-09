@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, onUnmounted, watch } from 'vue';
-import { isSupportResizeObserver, isString } from '../utils/is';
+import { isSupportResizeObserver, isRegExp, isString } from '../utils/is';
 import { getLineHeight, registerWordBreak, setWordBreak, binarySearch } from '../utils/compute';
 import { getElementHeight, wrapTextChildNodesWithSpan } from '../utils/dom';
 import { getDefaultEndExcludes } from '../utils/get';
@@ -97,7 +97,7 @@ function reflow(): void {
   if (height <= Math.max(maxHeight, visibleMaxHeight)) {
     handleOnReflow(false, props.text);
     if (isString(wordBreak)) {
-      setWordBreak(textRef.value, wordBreak as string);
+      setWordBreak(textRef.value, wordBreak);
     }
     return;
   }
@@ -111,7 +111,7 @@ function reflow(): void {
     truncateText(aref.value, textRef.value, visibleMaxHeight);
   }
   if (isString(wordBreak)) {
-    setWordBreak(textRef.value, wordBreak as string);
+    setWordBreak(textRef.value, wordBreak);
   }
   truncating.value = false;
 }
@@ -136,9 +136,7 @@ function truncateText(container: HTMLElement, textContainer: HTMLElement, max: n
     (l, r, m) => l === m
   );
   // Remove the exclude char at the end of the content.
-  while (props.endExcludes.includes(currentText[currentText.length - 1])) {
-    currentText = currentText.slice(0, -1);
-  }
+  currentText = handleEndExcludes(currentText);
   textContainer.innerText = currentText;
   // Callback after reflow.
   handleOnReflow(true, currentText);
@@ -210,6 +208,26 @@ function truncateHTML(container: HTMLElement, textContainer: HTMLElement, max: n
       truncateHTML(container, textContainer.childNodes[i] as HTMLElement, max);
     }
   }
+}
+
+function isTextInEndExcludes(text: string) {
+  for (const item of props.endExcludes) {
+    if (isRegExp(item)) {
+      if (item.test(text)) {
+        return true;
+      }
+    } else if (item === text) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function handleEndExcludes(text: string) {
+  while (!!text.length && isTextInEndExcludes(text[text.length - 1])) {
+    text = text.slice(0, -1);
+  }
+  return text;
 }
 
 onMounted(() => {

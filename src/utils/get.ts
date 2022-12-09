@@ -1,3 +1,3 @@
-export function getDefaultEndExcludes(): string[] {
+export function getDefaultEndExcludes(): (string | RegExp)[] {
   return [];
 }

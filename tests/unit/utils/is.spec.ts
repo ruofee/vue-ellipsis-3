@@ -1,19 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { isFunction, isNull, isString } from '../../../src/utils/is';
+import { isFunction, isRegExp, isString } from '../../../src/utils/is';
 
 describe('is.ts', () => {
-  // isNull
-  it('isNull: input => null => true', () => {
-    expect(isNull(null)).toBeTruthy();
-  });
+  //isRegExp
+  it('isRegExp: input => RegExp => true', () => {
+    expect(isRegExp(/[1-5]/)).toBeTruthy();
+  })
 
-  it('isNull: input => not null => false', () => {
-    const arr = ['', undefined, false, 12, () => {}, [], {}];
-
-    arr.forEach((item) => {
-      expect(isNull(item)).not.toBeTruthy();
-    });
-  });
+  it('isRegExp: input => no RegExp => false', () => {
+    expect(isRegExp(12)).not.toBeTruthy();
+  })
 
   // isString
   it('isString: input => string => true', () => {
