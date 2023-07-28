@@ -1,6 +1,6 @@
 {
   "name": "vue-ellipsis-3",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "author": {
     "email": "ruofee@126.com",
@@ -33,7 +33,6 @@
   "typings": "types/index.d.ts",
   "files": [
     "dist",
-    "src",
     "types"
   ],
   "dependencies": {
