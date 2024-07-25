@@ -2,7 +2,9 @@
 
 > 一个高性能、可自定义的 vue3 文本缩略组件。
 
-若是你使用 vue 2.x 版本，请移步 [vue-ellipsis-component](https://github.com/ruofee/vue-ellipsis-component)
+Vue 2.x 版本：[vue-ellipsis-component](https://github.com/ruofee/vue-ellipsis-component)
+
+React 版本：[react-ellipsis](https://github.com/chenquincy/react-ellipsis)
 
 ## Demo
 
