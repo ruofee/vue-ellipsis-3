@@ -159,6 +159,10 @@ function truncateText(container: HTMLElement, textContainer: HTMLElement, max: n
 function truncateHTML(container: HTMLElement, textContainer: HTMLElement, max: number) {
   // only enter this function when container overflow.
   const children = textContainer.childNodes;
+  if (children.length === 0) {
+    // remove parent node
+    return false;
+  }
   if (children.length === 1) {
     const node = children[0] as HTMLElement;
     if (node.nodeType === Node.TEXT_NODE) {
@@ -219,7 +223,11 @@ function truncateHTML(container: HTMLElement, textContainer: HTMLElement, max: n
     );
     if (textContainer.childNodes[i]) {
       // truncate the critical node
-      truncateHTML(container, textContainer.childNodes[i] as HTMLElement, max);
+      const truncateResult = truncateHTML(container, textContainer.childNodes[i] as HTMLElement, max);
+      // if truncateResult be false, it means that node should be removed
+      if (truncateResult === false) {
+        textContainer.removeChild(textContainer.childNodes[i]);
+      }
     }
   }
 }
