@@ -34,6 +34,9 @@ const props = defineProps({
     type: String,
     default: ELLIPSIS_NODE,
   },
+  unellipsisNode: {
+    type: String,
+  },
   endExcludes: {
     type: Array,
     default: getDefaultEndExcludes,
@@ -52,6 +55,9 @@ const props = defineProps({
   onEllipsisClick: {
     type: Function,
   },
+  onUnellipsisClick: {
+    type: Function,
+  },
 });
 
 const useNativeEllipsis = computed(() => {
@@ -61,10 +67,13 @@ const useNativeEllipsis = computed(() => {
     props.endExcludes.length === 0 &&
     props.ellipsisNode === ELLIPSIS_NODE &&
     typeof slots.ellipsisNode === 'undefined' &&
+    typeof props.unellipsisNode === 'undefined' &&
+    typeof slots.unellipsisNode === 'undefined' &&
     typeof props.maxHeight === 'undefined' &&
     typeof props.visibleHeight === 'undefined' &&
     typeof props.onReflow === 'undefined' &&
-    typeof props.onEllipsisClick === 'undefined';
+    typeof props.onEllipsisClick === 'undefined' &&
+    typeof props.onUnellipsisClick === 'undefined';
   return useNativeEllipsis;
 });
 </script>
@@ -91,10 +100,15 @@ const useNativeEllipsis = computed(() => {
       :reflow-on-resize="reflowOnResize"
       :on-reflow="onReflow"
       :on-ellipsis-click="onEllipsisClick"
+      :on-unellipsis-click="onUnellipsisClick"
     >
       <template #ellipsisNode>
         <template v-if="!slots.ellipsisNode">{{ ellipsisNode }}</template>
         <slot name="ellipsisNode"></slot>
+      </template>
+      <template v-if="unellipsisNode || $slots.unellipsisNode" #unellipsisNode>
+        <slot v-if="$slots.unellipsisNode" name="unellipsisNode"></slot>
+        <template v-else>{{ unellipsisNode }}</template>
       </template>
     </JsEllipsis>
   </div>

@@ -42,11 +42,15 @@ const props = defineProps({
   onEllipsisClick: {
     type: Function,
   },
+  onUnellipsisClick: {
+    type: Function,
+  },
 });
 
 const aref = ref<HTMLElement>();
 const textRef = ref<HTMLElement>();
 const ellipsisRef = ref<HTMLElement>();
+const unellipsisRef = ref<HTMLElement>();
 
 const truncating = ref<boolean>();
 const observer = ref<ResizeObserver>();
@@ -67,6 +71,10 @@ function handleOnReflow(ellipsis: boolean, result: string): void {
 // callback of ellipsis click event
 function handleEllipsisClick() {
   props?.onEllipsisClick?.();
+}
+
+function handleUnellipsisClick() {
+  props?.onUnellipsisClick?.();
 }
 
 function reflow(): void {
@@ -103,12 +111,18 @@ function reflow(): void {
   }
   truncating.value = true;
   ellipsisRef.value.style.display = 'inline';
+  if (unellipsisRef.value) {
+    unellipsisRef.value.style.display = 'none';
+  }
   if (props.useInnerHtml) {
     // wrap the text children node with span element.
     wrapTextChildNodesWithSpan(textRef.value);
     truncateHTML(aref.value, textRef.value, visibleMaxHeight);
   } else {
     truncateText(aref.value, textRef.value, visibleMaxHeight);
+  }
+  if (unellipsisRef.value) {
+    unellipsisRef.value.style.display = 'inline';
   }
   if (isString(wordBreak)) {
     setWordBreak(textRef.value, wordBreak);
@@ -256,6 +270,13 @@ onUnmounted(() => {
     <span ref="textRef" class="vue-ellipsis-js-content"></span>
     <span ref="ellipsisRef" class="vue-ellipsis-js-ellipsis" @click="handleEllipsisClick">
       <slot name="ellipsisNode"></slot>
+    </span>
+    <span
+      v-if="!ellipsis && $slots.unellipsisNode"
+      ref="unellipsisRef"
+      class="vue-ellipsis-js-unellipsis"
+      @click="handleUnellipsisClick">
+      <slot name="unellipsisNode"></slot>
     </span>
   </div>
 </template>
