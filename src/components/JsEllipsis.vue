@@ -131,7 +131,7 @@ function reflow(): void {
 }
 
 function truncateText(container: HTMLElement, textContainer: HTMLElement, max: number) {
-  const text = textContainer.textContent || '';
+  const text = textContainer.innerText || '';
   let currentText = '';
   // Binary truncate text until get the max limit fragment of text.
   binarySearch(
